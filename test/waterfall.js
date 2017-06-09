@@ -1,6 +1,7 @@
 /* eslint-disable */
-const assert = require('assert'),
-    waterfall = require('../');
+const assert = require('assert');
+const waterfall = require('../');
+const Bluebird = require('bluebird');
 
 describe('Waterfall', function() {
 
@@ -101,6 +102,19 @@ describe('Waterfall', function() {
     waterfall([
       function(next) {
         return new Promise((resolve, reject) => {
+          reject(new Error('test'));
+        });
+      }
+    ], function(err) {
+      assert.equal(err.message, 'test');
+      done();
+    });
+  });
+
+  it('should catch promise rejects. Externel lib', function(done) {
+    waterfall([
+      function(next) {
+        return new Bluebird((resolve, reject) => {
           reject(new Error('test'));
         });
       }
