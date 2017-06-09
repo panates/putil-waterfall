@@ -44,6 +44,11 @@ describe('Waterfall', function() {
     });
   });
 
+  it('should do nothing when array length is zero, wo/callback', function(done) {
+    waterfall([]);
+    done();
+  });
+
   it('should exit with error when fill error argument', function(done) {
     waterfall([
       function(callback) {
