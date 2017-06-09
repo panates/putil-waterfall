@@ -97,4 +97,17 @@ describe('Waterfall', function() {
     done();
   });
 
+  it('should catch promise rejects', function(done) {
+    waterfall([
+      function(next) {
+        return new Promise((resolve, reject) => {
+          reject(new Error('test'));
+        });
+      }
+    ], function(err) {
+      assert.equal(err.message, 'test');
+      done();
+    });
+  });
+
 });
