@@ -28,20 +28,20 @@ Each function calls callback(err, result1, result2, ...) to step through next fu
 ```javascript
 const waterfall = require('putil-waterfall');
 waterfall([
-  function(callback) {
+  function(next) {
     console.log('started');
-    callback(null, 1, 2);
+    next(null, 1, 2);
   },
-  function(arg1, arg2, callback) {
+  function(arg1, arg2, next) {
     let sum = arg1 + arg2;
     console.log('Current sum: ', sum);
-    callback(null, sum, 3, 4);
+    next(null, sum, 3, 4);
   },
-  function(arg1, arg2, arg3, callback) {
+  function(arg1, arg2, arg3, next) {
     let sum = arg1 + arg2 + arg3;
     console.log('Current sum: ', sum);
     // arg1 now equals 'three'
-    callback(null, sum + 10);
+    next(null, sum + 10);
   }
 ], function(err, result) {
   if (err)

@@ -6,14 +6,14 @@ describe('Waterfall', function() {
 
   it('should waterfall success', function(done) {
     waterfall([
-      function(callback) {
-        callback(null, 1, 2);
+      function(next) {
+        next(null, 1, 2);
       },
-      function(arg1, arg2, callback) {
-        callback(null, arg1 + arg2);
+      function(arg1, arg2, next) {
+        next(null, arg1 + arg2);
       },
-      function(arg1, callback) {
-        callback(null, arg1, 10);
+      function(arg1, next) {
+        next(null, arg1, 10);
       }
     ], function(err, result1, result2) {
       assert.ok(!err);
@@ -25,11 +25,11 @@ describe('Waterfall', function() {
 
   it('should exit when passing error in callback', function(done) {
     waterfall([
-      function(callback) {
-        callback('Error');
+      function(next) {
+        next('Error');
       },
-      function(callback) {
-        callback(null);
+      function(next) {
+        next(null);
       }
     ], function(err) {
       assert.ok(err);
@@ -51,8 +51,8 @@ describe('Waterfall', function() {
 
   it('should exit with error when fill error argument', function(done) {
     waterfall([
-      function(callback) {
-        callback(new Error('test'));
+      function(next) {
+        next(new Error('test'));
       }
     ], function(err) {
       assert.equal(err.message, 'test');
@@ -62,7 +62,7 @@ describe('Waterfall', function() {
 
   it('should exit with error when throw error functions', function(done) {
     waterfall([
-      function(callback) {
+      function(next) {
         throw new Error('test');
       }
     ], function(err) {
@@ -75,7 +75,7 @@ describe('Waterfall', function() {
     let ok;
     try {
       waterfall([
-        function(callback) {
+        function(next) {
         }
       ], 5);
     } catch (e) {
