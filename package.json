@@ -1,7 +1,7 @@
 {
   "name": "putil-waterfall",
   "description": "Simple, fast async waterfall NodeJs module for ES6.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Panates Ltd.",
   "contributors": [
     "Eray Hanoglu <e.hanoglu@panates.com>"
