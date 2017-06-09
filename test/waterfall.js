@@ -9,10 +9,10 @@ describe('Waterfall', function() {
       function(next) {
         next(null, 1, 2);
       },
-      function(arg1, arg2, next) {
+      function(next, arg1, arg2) {
         next(null, arg1 + arg2);
       },
-      function(arg1, next) {
+      function(next, arg1) {
         next(null, arg1, 10);
       }
     ], function(err, result1, result2) {

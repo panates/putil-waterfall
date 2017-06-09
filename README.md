@@ -32,12 +32,12 @@ waterfall([
     console.log('started');
     next(null, 1, 2);
   },
-  function(arg1, arg2, next) {
+  function(next, arg1, arg2) {
     let sum = arg1 + arg2;
     console.log('Current sum: ', sum);
     next(null, sum, 3, 4);
   },
-  function(arg1, arg2, arg3, next) {
+  function(next, arg1, arg2, arg3) {
     let sum = arg1 + arg2 + arg3;
     console.log('Current sum: ', sum);
     // arg1 now equals 'three'
