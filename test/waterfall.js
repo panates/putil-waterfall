@@ -37,4 +37,59 @@ describe('Waterfall', function() {
     });
   });
 
+  it('should exit when array length is zero', function(done) {
+    waterfall([], function(err) {
+      assert.ok(!err);
+      done();
+    });
+  });
+
+  it('should exit with error when fill error argument', function(done) {
+    waterfall([
+      function(callback) {
+        callback(new Error('test'));
+      }
+    ], function(err) {
+      assert.equal(err.message, 'test');
+      done();
+    });
+  });
+
+  it('should exit with error when throw error functions', function(done) {
+    waterfall([
+      function(callback) {
+        throw new Error('test');
+      }
+    ], function(err) {
+      assert.equal(err.message, 'test');
+      done();
+    });
+  });
+
+  it('should verify result callback is a function', function(done) {
+    let ok;
+    try {
+      waterfall([
+        function(callback) {
+        }
+      ], 5);
+    } catch (e) {
+      ok = true;
+    }
+    assert.ok(ok);
+    done();
+  });
+
+  it('should verify first argument is Array', function(done) {
+    let ok;
+    try {
+      waterfall('--', () => {
+      });
+    } catch (e) {
+      ok = true;
+    }
+    assert.ok(ok);
+    done();
+  });
+
 });
