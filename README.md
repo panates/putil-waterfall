@@ -58,9 +58,35 @@ Current sum:  10
 Result:  20
 ```
 
+`waterfall.every(array, fn, callback)`
+
+**array:** Any array
+
+**fn:** Function to be called for every value. `fn(next, value, index)
+
+**callback:** An optional callback to run once iteration completed.
+
+ 
+
+```javascript
+const waterfall = require('putil-waterfall');
+var total = 0;
+waterfall.every([1, 2, 3, 4],
+    function(next, val) {
+      total += val;
+      next(null);
+    },
+    function(err) {
+      console.log('Total: ' + total);      
+    });
+```
+Result output
+```
+Total: 10
+```
 ## Node Compatibility
 
-  - node `>= 6.x`;
+  - node `>= 4.0`;
   
 ### License
 [MIT](LICENSE)

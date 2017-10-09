@@ -73,7 +73,7 @@ describe('Waterfall', function() {
   });
 
   it('should verify result callback is a function', function(done) {
-    let ok;
+    var ok;
     try {
       waterfall([
         function(next) {
@@ -87,10 +87,9 @@ describe('Waterfall', function() {
   });
 
   it('should verify first argument is Array', function(done) {
-    let ok;
+    var ok;
     try {
-      waterfall('--', () => {
-      });
+      waterfall('--', function() {});
     } catch (e) {
       ok = true;
     }
@@ -98,23 +97,25 @@ describe('Waterfall', function() {
     done();
   });
 
-  it('should catch promise rejects', function(done) {
-    waterfall([
-      function(next) {
-        return new Promise((resolve, reject) => {
-          reject(new Error('test'));
-        });
-      }
-    ], function(err) {
-      assert.equal(err.message, 'test');
-      done();
+  if (Promise) {
+    it('should catch promise rejects', function(done) {
+      waterfall([
+        function(next) {
+          return new Promise(function(resolve, reject) {
+            reject(new Error('test'));
+          });
+        }
+      ], function(err) {
+        assert.equal(err.message, 'test');
+        done();
+      });
     });
-  });
+  }
 
   it('should catch promise rejects. Externel lib', function(done) {
     waterfall([
       function(next) {
-        return new Bluebird((resolve, reject) => {
+        return new Bluebird(function(resolve, reject) {
           reject(new Error('test'));
         });
       }
