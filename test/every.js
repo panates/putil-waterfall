@@ -26,6 +26,16 @@ describe('Waterfall.every', function() {
     });
   });
 
+  it('should array contain null and undefined items', function(done) {
+    waterfall.every([null], function(next, val) {
+      assert.equal(val, null);
+      next();
+    }, function(err) {
+      assert.ok(!err, err);
+      done();
+    });
+  });
+
   it('should do nothing when array length is zero, wo/callback', function(done) {
     waterfall.every([]);
     done();
