@@ -17,7 +17,9 @@
     "control",
     "flow"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "4": "0.0.0"
+  },
   "devDependencies": {
     "babel-eslint": "^8.0.2",
     "bluebird": "^3.5.1",
