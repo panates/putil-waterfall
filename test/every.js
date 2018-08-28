@@ -1,12 +1,11 @@
 /* eslint-disable */
 const assert = require('assert');
 const waterfall = require('../');
-const Bluebird = require('bluebird');
 
 describe('Waterfall.every', function() {
 
   it('should waterfall success', function(done) {
-    var total = 0;
+    let total = 0;
     waterfall.every([1, 2, 3, 4],
         function(next, val) {
           total += val;
@@ -17,6 +16,17 @@ describe('Waterfall.every', function() {
           assert.equal(total, 10);
           done();
         });
+  });
+
+  it('should waterfall success (Promise)', function() {
+    let total = 0;
+    return waterfall.every([1, 2, 3, 4],
+        function(next, val) {
+          total += val;
+          next(null);
+        }).then(() => {
+      assert.equal(total, 10);
+    });
   });
 
   it('should exit when array length is zero', function(done) {
@@ -101,17 +111,5 @@ describe('Waterfall.every', function() {
           });
     });
   }
-
-  it('should catch promise rejects. Externel lib', function(done) {
-    waterfall.every([1, 2, 3, 4],
-        function(next) {
-          return new Bluebird(function(resolve, reject) {
-            reject(new Error('test'));
-          });
-        }, function(err) {
-          assert.equal(err.message, 'test');
-          done();
-        });
-  });
 
 });

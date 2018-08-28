@@ -1,11 +1,10 @@
 /* eslint-disable */
 const assert = require('assert');
 const waterfall = require('../');
-const Bluebird = require('bluebird');
 
 describe('Waterfall', function() {
 
-  it('should waterfall success', function(done) {
+  it('should waterfall return result value', function(done) {
     waterfall([
       function(next) {
         next(null, 1, 2);
@@ -20,6 +19,23 @@ describe('Waterfall', function() {
       assert.ok(!err);
       assert.equal(result1, 3);
       assert.equal(result2, 10);
+      done();
+    });
+  });
+
+  it('should waterfall return result value (Promise)', function(done) {
+    waterfall([
+      function(next) {
+        next(null, 1, 2);
+      },
+      function(next, arg1, arg2) {
+        next(null, arg1 + arg2);
+      },
+      function(next, arg1) {
+        next(null, arg1, 10);
+      }
+    ]).then(result1 => {
+      assert.equal(result1, 3);
       done();
     });
   });
@@ -78,7 +94,7 @@ describe('Waterfall', function() {
       waterfall([
         function(next) {
         }
-      ], 5);
+      ], 5, 'callback');
     } catch (e) {
       ok = true;
     }
@@ -97,25 +113,10 @@ describe('Waterfall', function() {
     done();
   });
 
-  if (Promise) {
-    it('should catch promise rejects', function(done) {
-      waterfall([
-        function(next) {
-          return new Promise(function(resolve, reject) {
-            reject(new Error('test'));
-          });
-        }
-      ], function(err) {
-        assert.equal(err.message, 'test');
-        done();
-      });
-    });
-  }
-
-  it('should catch promise rejects. Externel lib', function(done) {
+  it('should catch promise rejects', function(done) {
     waterfall([
       function(next) {
-        return new Bluebird(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
           reject(new Error('test'));
         });
       }
