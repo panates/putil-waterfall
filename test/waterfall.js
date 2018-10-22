@@ -29,10 +29,10 @@ describe('Waterfall', function() {
         next(null, 1, 2);
       },
       function(next, arg1, arg2) {
-        next(null, arg1 + arg2);
+        return Promise.resolve(arg1 + arg2);
       },
       function(next, arg1) {
-        next(null, arg1, 10);
+        return Promise.resolve(arg1);
       }
     ]).then(result1 => {
       assert.equal(result1, 3);
