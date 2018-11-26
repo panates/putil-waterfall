@@ -17,8 +17,8 @@ describe('Waterfall', function() {
       }
     ], function(err, result1, result2) {
       assert.ok(!err);
-      assert.equal(result1, 3);
-      assert.equal(result2, 10);
+      assert.strictEqual(result1, 3);
+      assert.strictEqual(result2, 10);
       done();
     });
   });
@@ -35,7 +35,7 @@ describe('Waterfall', function() {
         return Promise.resolve(arg1);
       }
     ]).then(result1 => {
-      assert.equal(result1, 3);
+      assert.strictEqual(result1, 3);
       done();
     });
   });
@@ -72,18 +72,18 @@ describe('Waterfall', function() {
         next(new Error('test'));
       }
     ], function(err) {
-      assert.equal(err.message, 'test');
+      assert.strictEqual(err.message, 'test');
       done();
     });
   });
 
   it('should exit with error when throw error functions', function(done) {
     waterfall([
-      function(next) {
+      function() {
         throw new Error('test');
       }
     ], function(err) {
-      assert.equal(err.message, 'test');
+      assert.strictEqual(err.message, 'test');
       done();
     });
   });
@@ -115,13 +115,13 @@ describe('Waterfall', function() {
 
   it('should catch promise rejects', function(done) {
     waterfall([
-      function(next) {
+      function() {
         return new Promise(function(resolve, reject) {
           reject(new Error('test'));
         });
       }
     ], function(err) {
-      assert.equal(err.message, 'test');
+      assert.strictEqual(err.message, 'test');
       done();
     });
   });

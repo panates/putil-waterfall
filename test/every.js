@@ -13,7 +13,7 @@ describe('Waterfall.every', function() {
         },
         function(err) {
           assert.ok(!err);
-          assert.equal(total, 10);
+          assert.strictEqual(total, 10);
           done();
         });
   });
@@ -25,7 +25,7 @@ describe('Waterfall.every', function() {
           total += val;
           next(null);
         }).then(() => {
-      assert.equal(total, 10);
+      assert.strictEqual(total, 10);
     });
   });
 
@@ -38,7 +38,7 @@ describe('Waterfall.every', function() {
 
   it('should array contain null and undefined items', function(done) {
     waterfall.every([null], function(next, val) {
-      assert.equal(val, null);
+      assert.strictEqual(val, null);
       next();
     }, function(err) {
       assert.ok(!err, err);
@@ -56,7 +56,7 @@ describe('Waterfall.every', function() {
         },
         function(err) {
           assert.ok(!err);
-          assert.equal(total, 10);
+          assert.strictEqual(total, 10);
           done();
         });
   });
@@ -97,18 +97,18 @@ describe('Waterfall.every', function() {
         },
         function(err) {
           assert.ok(err);
-          assert.equal(err.message, 'test');
+          assert.strictEqual(err.message, 'test');
           done();
         });
   });
 
   it('should exit with error when throw error functions', function(done) {
     waterfall.every([1, 2, 3, 4],
-        function(next) {
+        function() {
           throw new Error('test');
         },
         function(err) {
-          assert.equal(err.message, 'test');
+          assert.strictEqual(err.message, 'test');
           done();
         });
   });
@@ -116,12 +116,12 @@ describe('Waterfall.every', function() {
   if (Promise) {
     it('should catch promise rejects', function(done) {
       waterfall.every([1, 2, 3, 4],
-          function(next) {
+          function() {
             return new Promise(function(resolve, reject) {
               reject(new Error('test'));
             });
           }, function(err) {
-            assert.equal(err.message, 'test');
+            assert.strictEqual(err.message, 'test');
             done();
           });
     });
